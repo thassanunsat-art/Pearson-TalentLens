@@ -1,0 +1,79 @@
+{
+  "title": "เจ้าหน้าที่บัญชี (Accountant)",
+  "requirements": [
+    {
+      "id": "degree",
+      "criterion": "วุฒิปริญญาตรี สาขาการบัญชี",
+      "type": "must",
+      "weight": 5,
+      "min_years": null,
+      "keywords": [
+        "บัญชีบัณฑิต",
+        "การบัญชี",
+        "accounting",
+        "accountancy"
+      ]
+    },
+    {
+      "id": "exp",
+      "criterion": "มีประสบการณ์งานบัญชีอย่างน้อย 1 ปี",
+      "type": "must",
+      "weight": 4,
+      "min_years": 1.0,
+      "keywords": [
+        "บัญชี",
+        "accountant"
+      ]
+    },
+    {
+      "id": "excel",
+      "criterion": "ใช้ Excel ขั้นสูงได้ (Pivot Table, VLOOKUP)",
+      "type": "must",
+      "weight": 4,
+      "min_years": null,
+      "keywords": [
+        "pivot",
+        "vlookup",
+        "xlookup",
+        "advanced excel",
+        "excel ขั้นสูง"
+      ]
+    },
+    {
+      "id": "software",
+      "criterion": "ใช้โปรแกรมบัญชี Express หรือ SAP ได้",
+      "type": "nice",
+      "weight": 3,
+      "min_years": null,
+      "keywords": [
+        "express",
+        "sap"
+      ]
+    },
+    {
+      "id": "license",
+      "criterion": "มีใบอนุญาต CPA หรือ TA",
+      "type": "nice",
+      "weight": 3,
+      "min_years": null,
+      "keywords": [
+        "cpa",
+        "tax auditor",
+        "ผู้สอบบัญชี"
+      ]
+    },
+    {
+      "id": "tax",
+      "criterion": "มีความรู้ด้านภาษีอากร (ภ.ง.ด., ภ.พ.30)",
+      "type": "nice",
+      "weight": 2,
+      "min_years": null,
+      "keywords": [
+        "ภาษี",
+        "tax",
+        "ภ.ง.ด.",
+        "ภ.พ.30"
+      ]
+    }
+  ]
+}

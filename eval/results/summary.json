@@ -1,0 +1,68 @@
+{
+ "summaries": [
+  {
+   "method": "rules",
+   "cvs": 40,
+   "processed": 28,
+   "name_ok": 1.0,
+   "email_ok": 1.0,
+   "phone_ok": 1.0,
+   "birth_year_ok": 1.0,
+   "grad_year_ok": 0.8214285714285714,
+   "years_ok": 1.0,
+   "must_pass_ok": 0.8214285714285714,
+   "evidence_verified": 1.0,
+   "years_mae": 0.0,
+   "skills_f1": 0.8769230769230769,
+   "criterion_exact": 0.7559523809523809,
+   "criterion_within_50": 0.9940476190476191,
+   "spearman_mean": 0.48086350985501236,
+   "ndcg5_mean": 0.910538654477909,
+   "per_job": [
+    {
+     "job": "data_analyst",
+     "spearman": 0.3443738178719705,
+     "ndcg@5": 0.8418122214847248
+    },
+    {
+     "job": "accountant",
+     "spearman": 0.6173532018380542,
+     "ndcg@5": 0.9792650874710934
+    }
+   ],
+   "sec_per_cv": 0.0,
+   "usd_per_cv": 0.0
+  },
+  {
+   "method": "tfidf",
+   "per_job": [
+    {
+     "job": "data_analyst",
+     "spearman": -0.0019208845014156678,
+     "ndcg@5": 0.681623440914915
+    },
+    {
+     "job": "accountant",
+     "spearman": -0.046673734672005925,
+     "ndcg@5": 0.6416658429308707
+    }
+   ],
+   "spearman_mean": -0.024297309586710798,
+   "ndcg5_mean": 0.6616446419228929
+  }
+ ],
+ "counterfactual": {
+  "rules": {
+   "blind": {
+    "pairs": 10,
+    "mean_abs_diff": 0.0,
+    "max_abs_diff": 0.0
+   },
+   "open": {
+    "pairs": 10,
+    "mean_abs_diff": 0.0,
+    "max_abs_diff": 0.0
+   }
+  }
+ }
+}

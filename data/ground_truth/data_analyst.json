@@ -1,0 +1,797 @@
+[
+ {
+  "id": "DA01",
+  "file": "data_analyst/DA01.pdf",
+  "format": "pdf",
+  "layout": "two-col",
+  "lang": "th",
+  "profile": {
+   "full_name": "กิตติพัฒน์ สุขสวัสดิ์",
+   "email": "kittiphat.suk1@example.com",
+   "phone": "082-670-9815",
+   "gender": "male",
+   "birth_year": 1999,
+   "grad_year": 2021,
+   "experience": [
+    {
+     "start": "2026-07",
+     "end": null,
+     "relevant": true
+    },
+    {
+     "start": "2023-12",
+     "end": "2026-04",
+     "relevant": false
+    }
+   ],
+   "skills": [
+    "presentation"
+   ]
+  },
+  "gold_scores": {
+   "exp": 0,
+   "degree": 0,
+   "sql": 0,
+   "py_r": 0,
+   "bi": 0,
+   "english": 0
+  },
+  "gold_total": 0.0,
+  "must_have_failed": [
+   "sql",
+   "py_r",
+   "exp"
+  ]
+ },
+ {
+  "id": "DA02",
+  "file": "data_analyst/DA02.pdf",
+  "format": "pdf",
+  "layout": "table",
+  "lang": "en",
+  "profile": {
+   "full_name": "Somchai Rattanaphan",
+   "email": "somchai.rat2@example.com",
+   "phone": "087-581-3333",
+   "gender": "male",
+   "birth_year": 1981,
+   "grad_year": 2003,
+   "experience": [
+    {
+     "start": "2025-02",
+     "end": "2026-06",
+     "relevant": true
+    },
+    {
+     "start": "2023-11",
+     "end": "2024-11",
+     "relevant": false
+    }
+   ],
+   "skills": []
+  },
+  "gold_scores": {
+   "exp": 50,
+   "degree": 50,
+   "sql": 0,
+   "py_r": 0,
+   "bi": 0,
+   "english": 0
+  },
+  "gold_total": 16.7,
+  "must_have_failed": [
+   "sql",
+   "py_r"
+  ]
+ },
+ {
+  "id": "DA03",
+  "file": "data_analyst/DA03.pdf",
+  "format": "pdf",
+  "layout": "classic",
+  "lang": "th",
+  "profile": {
+   "full_name": "สมชาย ใจดี",
+   "email": "somchai.jai3@example.com",
+   "phone": "087-671-1550",
+   "gender": "male",
+   "birth_year": 2002,
+   "grad_year": 2024,
+   "experience": [
+    {
+     "start": "2023-01",
+     "end": null,
+     "relevant": true
+    }
+   ],
+   "skills": [
+    "english",
+    "power_bi",
+    "presentation",
+    "python",
+    "sql"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 100,
+   "sql": 100,
+   "py_r": 50,
+   "bi": 100,
+   "english": 100
+  },
+  "gold_total": 90.5,
+  "must_have_failed": []
+ },
+ {
+  "id": "DA04",
+  "file": "data_analyst/DA04.pdf",
+  "format": "pdf",
+  "layout": "two-col",
+  "lang": "en",
+  "profile": {
+   "full_name": "Piya Rattanaphan",
+   "email": "piya.rat4@example.com",
+   "phone": "086-780-9060",
+   "gender": "male",
+   "birth_year": 1995,
+   "grad_year": 2017,
+   "experience": [
+    {
+     "start": "2023-05",
+     "end": "2026-08",
+     "relevant": true
+    },
+    {
+     "start": "2021-11",
+     "end": "2023-02",
+     "relevant": false
+    }
+   ],
+   "skills": [
+    "presentation"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 0,
+   "sql": 50,
+   "py_r": 0,
+   "bi": 0,
+   "english": 0
+  },
+  "gold_total": 35.7,
+  "must_have_failed": [
+   "py_r"
+  ]
+ },
+ {
+  "id": "DA05",
+  "file": "data_analyst/DA05.pdf",
+  "format": "pdf",
+  "layout": "table",
+  "lang": "th",
+  "profile": {
+   "full_name": "ศิริพร แก้วมณี",
+   "email": "siriporn.kae5@example.com",
+   "phone": "083-705-9513",
+   "gender": "female",
+   "birth_year": 2000,
+   "grad_year": 2022,
+   "experience": [
+    {
+     "start": "2024-03",
+     "end": "2026-06",
+     "relevant": true
+    },
+    {
+     "start": "2021-08",
+     "end": "2023-12",
+     "relevant": true
+    },
+    {
+     "start": "2021-01",
+     "end": "2021-06",
+     "relevant": false
+    }
+   ],
+   "skills": [
+    "english",
+    "sql"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 100,
+   "sql": 100,
+   "py_r": 0,
+   "bi": 50,
+   "english": 50
+  },
+  "gold_total": 69.0,
+  "must_have_failed": [
+   "py_r"
+  ]
+ },
+ {
+  "id": "DA06",
+  "file": "data_analyst/DA06.pdf",
+  "format": "pdf",
+  "layout": "classic",
+  "lang": "en",
+  "profile": {
+   "full_name": "Kamonwan Boonma",
+   "email": "kamonwan.boo6@example.com",
+   "phone": "085-291-6637",
+   "gender": "female",
+   "birth_year": 2002,
+   "grad_year": 2024,
+   "experience": [
+    {
+     "start": "2023-01",
+     "end": null,
+     "relevant": true
+    }
+   ],
+   "skills": [
+    "english",
+    "python"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 50,
+   "sql": 50,
+   "py_r": 100,
+   "bi": 0,
+   "english": 50
+  },
+  "gold_total": 64.3,
+  "must_have_failed": []
+ },
+ {
+  "id": "DA07",
+  "file": "data_analyst/DA07.pdf",
+  "format": "pdf",
+  "layout": "two-col",
+  "lang": "th",
+  "profile": {
+   "full_name": "กมลวรรณ รัตนพันธ์",
+   "email": "kamonwan.rat7@example.com",
+   "phone": "084-683-5828",
+   "gender": "female",
+   "birth_year": 1995,
+   "grad_year": 2017,
+   "experience": [
+    {
+     "start": "2026-08",
+     "end": null,
+     "relevant": true
+    },
+    {
+     "start": "2025-05",
+     "end": "2026-05",
+     "relevant": false
+    }
+   ],
+   "skills": []
+  },
+  "gold_scores": {
+   "exp": 0,
+   "degree": 0,
+   "sql": 0,
+   "py_r": 0,
+   "bi": 0,
+   "english": 0
+  },
+  "gold_total": 0.0,
+  "must_have_failed": [
+   "sql",
+   "py_r",
+   "exp"
+  ]
+ },
+ {
+  "id": "DA08",
+  "file": "data_analyst/DA08.pdf",
+  "format": "pdf",
+  "layout": "table",
+  "lang": "en",
+  "profile": {
+   "full_name": "Thanaphon Rattanaphan",
+   "email": "thanaphon.rat8@example.com",
+   "phone": "081-513-6178",
+   "gender": "male",
+   "birth_year": 1984,
+   "grad_year": 2006,
+   "experience": [
+    {
+     "start": "2023-07",
+     "end": "2026-09",
+     "relevant": true
+    },
+    {
+     "start": "2021-09",
+     "end": "2023-04",
+     "relevant": false
+    }
+   ],
+   "skills": [
+    "english",
+    "python",
+    "sql"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 50,
+   "sql": 100,
+   "py_r": 100,
+   "bi": 50,
+   "english": 50
+  },
+  "gold_total": 83.3,
+  "must_have_failed": []
+ },
+ {
+  "id": "DA09",
+  "file": "data_analyst/DA09.pdf",
+  "format": "pdf",
+  "layout": "classic",
+  "lang": "th",
+  "profile": {
+   "full_name": "อรอุมา วงศ์ทอง",
+   "email": "onuma.won9@example.com",
+   "phone": "082-221-1611",
+   "gender": "female",
+   "birth_year": 2002,
+   "grad_year": 2024,
+   "experience": [
+    {
+     "start": "2025-01",
+     "end": null,
+     "relevant": true
+    }
+   ],
+   "skills": [
+    "presentation",
+    "python"
+   ]
+  },
+  "gold_scores": {
+   "exp": 50,
+   "degree": 100,
+   "sql": 50,
+   "py_r": 50,
+   "bi": 50,
+   "english": 0
+  },
+  "gold_total": 50.0,
+  "must_have_failed": []
+ },
+ {
+  "id": "DA10",
+  "file": "data_analyst/DA10.pdf",
+  "format": "pdf",
+  "layout": "two-col",
+  "lang": "en",
+  "profile": {
+   "full_name": "Supaporn Suksawat",
+   "email": "supaporn.suk10@example.com",
+   "phone": "086-748-9527",
+   "gender": "female",
+   "birth_year": 1999,
+   "grad_year": 2021,
+   "experience": [
+    {
+     "start": "2026-06",
+     "end": null,
+     "relevant": true
+    }
+   ],
+   "skills": [
+    "english",
+    "sql"
+   ]
+  },
+  "gold_scores": {
+   "exp": 0,
+   "degree": 50,
+   "sql": 100,
+   "py_r": 0,
+   "bi": 50,
+   "english": 100
+  },
+  "gold_total": 45.2,
+  "must_have_failed": [
+   "py_r",
+   "exp"
+  ]
+ },
+ {
+  "id": "DA11",
+  "file": "data_analyst/DA11.docx",
+  "format": "docx",
+  "layout": "table",
+  "lang": "th",
+  "profile": {
+   "full_name": "สมชาย บุญมา",
+   "email": "somchai.boo11@example.com",
+   "phone": "088-907-6114",
+   "gender": "male",
+   "birth_year": 1996,
+   "grad_year": 2018,
+   "experience": [],
+   "skills": [
+    "presentation"
+   ]
+  },
+  "gold_scores": {
+   "exp": 0,
+   "degree": 0,
+   "sql": 0,
+   "py_r": 0,
+   "bi": 0,
+   "english": 0
+  },
+  "gold_total": 0.0,
+  "must_have_failed": [
+   "sql",
+   "py_r",
+   "exp"
+  ]
+ },
+ {
+  "id": "DA12",
+  "file": "data_analyst/DA12.docx",
+  "format": "docx",
+  "layout": "classic",
+  "lang": "en",
+  "profile": {
+   "full_name": "Natthida Jaidee",
+   "email": "natthida.jai12@example.com",
+   "phone": "082-245-7376",
+   "gender": "female",
+   "birth_year": 1981,
+   "grad_year": 2003,
+   "experience": [
+    {
+     "start": "2025-01",
+     "end": "2026-09",
+     "relevant": true
+    },
+    {
+     "start": "2023-02",
+     "end": "2024-10",
+     "relevant": false
+    }
+   ],
+   "skills": [
+    "english",
+    "python"
+   ]
+  },
+  "gold_scores": {
+   "exp": 50,
+   "degree": 50,
+   "sql": 0,
+   "py_r": 50,
+   "bi": 0,
+   "english": 50
+  },
+  "gold_total": 31.0,
+  "must_have_failed": [
+   "sql"
+  ]
+ },
+ {
+  "id": "DA13",
+  "file": "data_analyst/DA13.docx",
+  "format": "docx",
+  "layout": "table",
+  "lang": "th",
+  "profile": {
+   "full_name": "สุภาพร บุญมา",
+   "email": "supaporn.boo13@example.com",
+   "phone": "084-644-3526",
+   "gender": "female",
+   "birth_year": 1986,
+   "grad_year": 2008,
+   "experience": [
+    {
+     "start": "2023-02",
+     "end": null,
+     "relevant": true
+    }
+   ],
+   "skills": [
+    "english",
+    "python"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 100,
+   "sql": 0,
+   "py_r": 50,
+   "bi": 50,
+   "english": 100
+  },
+  "gold_total": 59.5,
+  "must_have_failed": [
+   "sql"
+  ]
+ },
+ {
+  "id": "DA14",
+  "file": "data_analyst/DA14.docx",
+  "format": "docx",
+  "layout": "classic",
+  "lang": "en",
+  "profile": {
+   "full_name": "Kamonwan Wongthong",
+   "email": "kamonwan.won14@example.com",
+   "phone": "086-430-9080",
+   "gender": "female",
+   "birth_year": 1983,
+   "grad_year": 2005,
+   "experience": [
+    {
+     "start": "2026-08",
+     "end": "2026-10",
+     "relevant": true
+    },
+    {
+     "start": "2025-01",
+     "end": "2026-05",
+     "relevant": false
+    }
+   ],
+   "skills": []
+  },
+  "gold_scores": {
+   "exp": 0,
+   "degree": 0,
+   "sql": 0,
+   "py_r": 0,
+   "bi": 0,
+   "english": 0
+  },
+  "gold_total": 0.0,
+  "must_have_failed": [
+   "sql",
+   "py_r",
+   "exp"
+  ]
+ },
+ {
+  "id": "DA15",
+  "file": "data_analyst/DA15.jpg",
+  "format": "scan",
+  "layout": "classic",
+  "lang": "th",
+  "profile": {
+   "full_name": "ปิยะ บุญมา",
+   "email": "piya.boo15@example.com",
+   "phone": "082-374-5808",
+   "gender": "male",
+   "birth_year": 2003,
+   "grad_year": 2025,
+   "experience": [
+    {
+     "start": "2024-01",
+     "end": null,
+     "relevant": true
+    }
+   ],
+   "skills": [
+    "presentation",
+    "python"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 0,
+   "sql": 0,
+   "py_r": 50,
+   "bi": 0,
+   "english": 0
+  },
+  "gold_total": 33.3,
+  "must_have_failed": [
+   "sql"
+  ]
+ },
+ {
+  "id": "DA16",
+  "file": "data_analyst/DA16.jpg",
+  "format": "scan",
+  "layout": "two-col",
+  "lang": "en",
+  "profile": {
+   "full_name": "On-uma Suksawat",
+   "email": "onuma.suk16@example.com",
+   "phone": "081-875-4602",
+   "gender": "female",
+   "birth_year": 1991,
+   "grad_year": 2013,
+   "experience": [
+    {
+     "start": "2026-07",
+     "end": null,
+     "relevant": true
+    }
+   ],
+   "skills": [
+    "sql"
+   ]
+  },
+  "gold_scores": {
+   "exp": 0,
+   "degree": 0,
+   "sql": 100,
+   "py_r": 0,
+   "bi": 50,
+   "english": 0
+  },
+  "gold_total": 31.0,
+  "must_have_failed": [
+   "py_r",
+   "exp"
+  ]
+ },
+ {
+  "id": "DA17",
+  "file": "data_analyst/DA17.jpg",
+  "format": "scan",
+  "layout": "table",
+  "lang": "th",
+  "profile": {
+   "full_name": "สุภาพร บุญมา",
+   "email": "supaporn.boo17@example.com",
+   "phone": "088-773-6591",
+   "gender": "female",
+   "birth_year": 1995,
+   "grad_year": 2017,
+   "experience": [
+    {
+     "start": "2021-08",
+     "end": null,
+     "relevant": true
+    }
+   ],
+   "skills": [
+    "english",
+    "power_bi",
+    "python",
+    "sql"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 100,
+   "sql": 100,
+   "py_r": 100,
+   "bi": 100,
+   "english": 100
+  },
+  "gold_total": 100.0,
+  "must_have_failed": []
+ },
+ {
+  "id": "DA18",
+  "file": "data_analyst/DA18.jpg",
+  "format": "scan",
+  "layout": "classic",
+  "lang": "en",
+  "profile": {
+   "full_name": "Kamonwan Thongkham",
+   "email": "kamonwan.tho18@example.com",
+   "phone": "086-285-2279",
+   "gender": "female",
+   "birth_year": 1989,
+   "grad_year": 2011,
+   "experience": [
+    {
+     "start": "2026-06",
+     "end": null,
+     "relevant": true
+    }
+   ],
+   "skills": [
+    "english",
+    "power_bi",
+    "presentation",
+    "python"
+   ]
+  },
+  "gold_scores": {
+   "exp": 0,
+   "degree": 50,
+   "sql": 50,
+   "py_r": 100,
+   "bi": 100,
+   "english": 50
+  },
+  "gold_total": 54.8,
+  "must_have_failed": [
+   "exp"
+  ]
+ },
+ {
+  "id": "DA19",
+  "file": "data_analyst/DA19.jpg",
+  "format": "scan",
+  "layout": "two-col",
+  "lang": "th",
+  "profile": {
+   "full_name": "อรอุมา วงศ์ทอง",
+   "email": "onuma.won19@example.com",
+   "phone": "083-242-5383",
+   "gender": "female",
+   "birth_year": 2000,
+   "grad_year": 2022,
+   "experience": [
+    {
+     "start": "2024-02",
+     "end": "2026-09",
+     "relevant": true
+    }
+   ],
+   "skills": [
+    "english",
+    "power_bi",
+    "presentation",
+    "python",
+    "sql"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 100,
+   "sql": 100,
+   "py_r": 100,
+   "bi": 100,
+   "english": 100
+  },
+  "gold_total": 100.0,
+  "must_have_failed": []
+ },
+ {
+  "id": "DA20",
+  "file": "data_analyst/DA20.jpg",
+  "format": "scan",
+  "layout": "table",
+  "lang": "en",
+  "profile": {
+   "full_name": "Kittiphat Kaewmanee",
+   "email": "kittiphat.kae20@example.com",
+   "phone": "081-267-9245",
+   "gender": "male",
+   "birth_year": 1994,
+   "grad_year": 2016,
+   "experience": [
+    {
+     "start": "2024-09",
+     "end": null,
+     "relevant": false
+    }
+   ],
+   "skills": []
+  },
+  "gold_scores": {
+   "exp": 0,
+   "degree": 0,
+   "sql": 0,
+   "py_r": 0,
+   "bi": 0,
+   "english": 0
+  },
+  "gold_total": 0.0,
+  "must_have_failed": [
+   "sql",
+   "py_r",
+   "exp"
+  ]
+ }
+]

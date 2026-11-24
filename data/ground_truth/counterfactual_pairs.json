@@ -1,0 +1,52 @@
+[
+ {
+  "job": "data_analyst",
+  "original": "data_analyst/DA01.pdf",
+  "counterfactual": "DA01_cf.pdf"
+ },
+ {
+  "job": "data_analyst",
+  "original": "data_analyst/DA02.pdf",
+  "counterfactual": "DA02_cf.pdf"
+ },
+ {
+  "job": "data_analyst",
+  "original": "data_analyst/DA03.pdf",
+  "counterfactual": "DA03_cf.pdf"
+ },
+ {
+  "job": "data_analyst",
+  "original": "data_analyst/DA04.pdf",
+  "counterfactual": "DA04_cf.pdf"
+ },
+ {
+  "job": "data_analyst",
+  "original": "data_analyst/DA05.pdf",
+  "counterfactual": "DA05_cf.pdf"
+ },
+ {
+  "job": "accountant",
+  "original": "accountant/AC01.pdf",
+  "counterfactual": "AC01_cf.pdf"
+ },
+ {
+  "job": "accountant",
+  "original": "accountant/AC02.pdf",
+  "counterfactual": "AC02_cf.pdf"
+ },
+ {
+  "job": "accountant",
+  "original": "accountant/AC03.pdf",
+  "counterfactual": "AC03_cf.pdf"
+ },
+ {
+  "job": "accountant",
+  "original": "accountant/AC04.pdf",
+  "counterfactual": "AC04_cf.pdf"
+ },
+ {
+  "job": "accountant",
+  "original": "accountant/AC05.pdf",
+  "counterfactual": "AC05_cf.pdf"
+ }
+]

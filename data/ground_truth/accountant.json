@@ -1,0 +1,800 @@
+[
+ {
+  "id": "AC01",
+  "file": "accountant/AC01.pdf",
+  "format": "pdf",
+  "layout": "two-col",
+  "lang": "th",
+  "profile": {
+   "full_name": "ณัฐธิดา แก้วมณี",
+   "email": "natthida.kae1@example.com",
+   "phone": "082-874-2291",
+   "gender": "female",
+   "birth_year": 1988,
+   "grad_year": 2010,
+   "experience": [],
+   "skills": []
+  },
+  "gold_scores": {
+   "exp": 0,
+   "degree": 0,
+   "excel": 0,
+   "software": 0,
+   "tax": 0,
+   "license": 0
+  },
+  "gold_total": 0.0,
+  "must_have_failed": [
+   "degree",
+   "exp",
+   "excel"
+  ]
+ },
+ {
+  "id": "AC02",
+  "file": "accountant/AC02.pdf",
+  "format": "pdf",
+  "layout": "table",
+  "lang": "en",
+  "profile": {
+   "full_name": "Thanaphon Kaewmanee",
+   "email": "thanaphon.kae2@example.com",
+   "phone": "081-814-6345",
+   "gender": "male",
+   "birth_year": 1987,
+   "grad_year": 2009,
+   "experience": [
+    {
+     "start": "2024-08",
+     "end": null,
+     "relevant": true
+    }
+   ],
+   "skills": [
+    "cpa",
+    "excel",
+    "sap",
+    "tax"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 100,
+   "excel": 50,
+   "software": 100,
+   "tax": 100,
+   "license": 50
+  },
+  "gold_total": 83.3,
+  "must_have_failed": []
+ },
+ {
+  "id": "AC03",
+  "file": "accountant/AC03.pdf",
+  "format": "pdf",
+  "layout": "classic",
+  "lang": "th",
+  "profile": {
+   "full_name": "ปิยะ ใจดี",
+   "email": "piya.jai3@example.com",
+   "phone": "088-347-6279",
+   "gender": "male",
+   "birth_year": 1992,
+   "grad_year": 2014,
+   "experience": [
+    {
+     "start": "2024-03",
+     "end": "2026-08",
+     "relevant": true
+    },
+    {
+     "start": "2021-06",
+     "end": "2023-12",
+     "relevant": true
+    },
+    {
+     "start": "2020-05",
+     "end": "2021-04",
+     "relevant": false
+    }
+   ],
+   "skills": [
+    "excel",
+    "sap",
+    "ta",
+    "tax"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 100,
+   "excel": 100,
+   "software": 100,
+   "tax": 100,
+   "license": 100
+  },
+  "gold_total": 100.0,
+  "must_have_failed": []
+ },
+ {
+  "id": "AC04",
+  "file": "accountant/AC04.pdf",
+  "format": "pdf",
+  "layout": "two-col",
+  "lang": "en",
+  "profile": {
+   "full_name": "Natthida Thongkham",
+   "email": "natthida.tho4@example.com",
+   "phone": "084-700-2244",
+   "gender": "female",
+   "birth_year": 1994,
+   "grad_year": 2016,
+   "experience": [
+    {
+     "start": "2026-05",
+     "end": null,
+     "relevant": true
+    },
+    {
+     "start": "2024-05",
+     "end": "2026-02",
+     "relevant": false
+    }
+   ],
+   "skills": [
+    "cpa",
+    "excel",
+    "tax"
+   ]
+  },
+  "gold_scores": {
+   "exp": 50,
+   "degree": 100,
+   "excel": 50,
+   "software": 50,
+   "tax": 100,
+   "license": 50
+  },
+  "gold_total": 66.7,
+  "must_have_failed": []
+ },
+ {
+  "id": "AC05",
+  "file": "accountant/AC05.pdf",
+  "format": "pdf",
+  "layout": "table",
+  "lang": "th",
+  "profile": {
+   "full_name": "ธนพล สุขสวัสดิ์",
+   "email": "thanaphon.suk5@example.com",
+   "phone": "081-393-1714",
+   "gender": "male",
+   "birth_year": 1993,
+   "grad_year": 2015,
+   "experience": [
+    {
+     "start": "2025-09",
+     "end": null,
+     "relevant": true
+    },
+    {
+     "start": "2024-03",
+     "end": "2025-06",
+     "relevant": true
+    },
+    {
+     "start": "2022-08",
+     "end": "2024-01",
+     "relevant": false
+    }
+   ],
+   "skills": [
+    "excel",
+    "express",
+    "tax"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 50,
+   "excel": 50,
+   "software": 100,
+   "tax": 50,
+   "license": 0
+  },
+  "gold_total": 59.5,
+  "must_have_failed": []
+ },
+ {
+  "id": "AC06",
+  "file": "accountant/AC06.pdf",
+  "format": "pdf",
+  "layout": "classic",
+  "lang": "en",
+  "profile": {
+   "full_name": "Somchai Kaewmanee",
+   "email": "somchai.kae6@example.com",
+   "phone": "088-991-3440",
+   "gender": "male",
+   "birth_year": 1998,
+   "grad_year": 2020,
+   "experience": [
+    {
+     "start": "2024-11",
+     "end": null,
+     "relevant": true
+    },
+    {
+     "start": "2022-08",
+     "end": "2024-08",
+     "relevant": true
+    },
+    {
+     "start": "2021-07",
+     "end": "2022-06",
+     "relevant": false
+    }
+   ],
+   "skills": [
+    "cpa",
+    "excel",
+    "sap",
+    "tax"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 100,
+   "excel": 100,
+   "software": 100,
+   "tax": 100,
+   "license": 100
+  },
+  "gold_total": 100.0,
+  "must_have_failed": []
+ },
+ {
+  "id": "AC07",
+  "file": "accountant/AC07.pdf",
+  "format": "pdf",
+  "layout": "two-col",
+  "lang": "th",
+  "profile": {
+   "full_name": "กิตติพัฒน์ ศรีสุข",
+   "email": "kittiphat.sri7@example.com",
+   "phone": "086-853-3875",
+   "gender": "male",
+   "birth_year": 1993,
+   "grad_year": 2015,
+   "experience": [],
+   "skills": [
+    "tax"
+   ]
+  },
+  "gold_scores": {
+   "exp": 0,
+   "degree": 0,
+   "excel": 0,
+   "software": 0,
+   "tax": 50,
+   "license": 0
+  },
+  "gold_total": 4.8,
+  "must_have_failed": [
+   "degree",
+   "exp",
+   "excel"
+  ]
+ },
+ {
+  "id": "AC08",
+  "file": "accountant/AC08.pdf",
+  "format": "pdf",
+  "layout": "table",
+  "lang": "en",
+  "profile": {
+   "full_name": "Somchai Jaidee",
+   "email": "somchai.jai8@example.com",
+   "phone": "087-580-5856",
+   "gender": "male",
+   "birth_year": 1986,
+   "grad_year": 2008,
+   "experience": [
+    {
+     "start": "2023-03",
+     "end": null,
+     "relevant": true
+    },
+    {
+     "start": "2021-02",
+     "end": "2022-12",
+     "relevant": false
+    }
+   ],
+   "skills": [
+    "excel",
+    "tax"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 100,
+   "excel": 100,
+   "software": 50,
+   "tax": 50,
+   "license": 0
+  },
+  "gold_total": 73.8,
+  "must_have_failed": []
+ },
+ {
+  "id": "AC09",
+  "file": "accountant/AC09.pdf",
+  "format": "pdf",
+  "layout": "classic",
+  "lang": "th",
+  "profile": {
+   "full_name": "วีรภัทร ศรีสุข",
+   "email": "weeraphat.sri9@example.com",
+   "phone": "084-407-3782",
+   "gender": "male",
+   "birth_year": 1987,
+   "grad_year": 2009,
+   "experience": [
+    {
+     "start": "2022-04",
+     "end": null,
+     "relevant": true
+    }
+   ],
+   "skills": [
+    "excel",
+    "sap",
+    "tax"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 100,
+   "excel": 100,
+   "software": 100,
+   "tax": 100,
+   "license": 0
+  },
+  "gold_total": 85.7,
+  "must_have_failed": []
+ },
+ {
+  "id": "AC10",
+  "file": "accountant/AC10.pdf",
+  "format": "pdf",
+  "layout": "two-col",
+  "lang": "en",
+  "profile": {
+   "full_name": "Piya Suksawat",
+   "email": "piya.suk10@example.com",
+   "phone": "084-279-9036",
+   "gender": "male",
+   "birth_year": 2001,
+   "grad_year": 2023,
+   "experience": [
+    {
+     "start": "2025-03",
+     "end": null,
+     "relevant": true
+    },
+    {
+     "start": "2023-06",
+     "end": "2024-12",
+     "relevant": false
+    }
+   ],
+   "skills": [
+    "excel",
+    "sap",
+    "tax"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 100,
+   "excel": 100,
+   "software": 100,
+   "tax": 50,
+   "license": 0
+  },
+  "gold_total": 81.0,
+  "must_have_failed": []
+ },
+ {
+  "id": "AC11",
+  "file": "accountant/AC11.docx",
+  "format": "docx",
+  "layout": "table",
+  "lang": "th",
+  "profile": {
+   "full_name": "ปิยะ บุญมา",
+   "email": "piya.boo11@example.com",
+   "phone": "087-201-2728",
+   "gender": "male",
+   "birth_year": 1992,
+   "grad_year": 2014,
+   "experience": [],
+   "skills": []
+  },
+  "gold_scores": {
+   "exp": 0,
+   "degree": 100,
+   "excel": 0,
+   "software": 0,
+   "tax": 0,
+   "license": 0
+  },
+  "gold_total": 23.8,
+  "must_have_failed": [
+   "exp",
+   "excel"
+  ]
+ },
+ {
+  "id": "AC12",
+  "file": "accountant/AC12.docx",
+  "format": "docx",
+  "layout": "classic",
+  "lang": "en",
+  "profile": {
+   "full_name": "Pimchanok Kaewmanee",
+   "email": "pimchanok.kae12@example.com",
+   "phone": "083-111-3320",
+   "gender": "female",
+   "birth_year": 1984,
+   "grad_year": 2006,
+   "experience": [
+    {
+     "start": "2023-12",
+     "end": "2026-06",
+     "relevant": true
+    },
+    {
+     "start": "2020-06",
+     "end": "2023-09",
+     "relevant": false
+    }
+   ],
+   "skills": [
+    "excel",
+    "sap",
+    "ta",
+    "tax"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 100,
+   "excel": 100,
+   "software": 100,
+   "tax": 50,
+   "license": 100
+  },
+  "gold_total": 95.2,
+  "must_have_failed": []
+ },
+ {
+  "id": "AC13",
+  "file": "accountant/AC13.docx",
+  "format": "docx",
+  "layout": "table",
+  "lang": "th",
+  "profile": {
+   "full_name": "สุภาพร บุญมา",
+   "email": "supaporn.boo13@example.com",
+   "phone": "088-266-6862",
+   "gender": "female",
+   "birth_year": 1992,
+   "grad_year": 2014,
+   "experience": [
+    {
+     "start": "2024-11",
+     "end": "2026-08",
+     "relevant": true
+    },
+    {
+     "start": "2021-08",
+     "end": "2024-08",
+     "relevant": false
+    }
+   ],
+   "skills": []
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 50,
+   "excel": 0,
+   "software": 0,
+   "tax": 0,
+   "license": 0
+  },
+  "gold_total": 31.0,
+  "must_have_failed": [
+   "excel"
+  ]
+ },
+ {
+  "id": "AC14",
+  "file": "accountant/AC14.docx",
+  "format": "docx",
+  "layout": "classic",
+  "lang": "en",
+  "profile": {
+   "full_name": "Supaporn Boonma",
+   "email": "supaporn.boo14@example.com",
+   "phone": "081-717-1379",
+   "gender": "female",
+   "birth_year": 1981,
+   "grad_year": 2003,
+   "experience": [
+    {
+     "start": "2022-09",
+     "end": "2026-10",
+     "relevant": true
+    },
+    {
+     "start": "2020-08",
+     "end": "2022-06",
+     "relevant": false
+    }
+   ],
+   "skills": [
+    "excel",
+    "sap",
+    "ta",
+    "tax"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 100,
+   "excel": 100,
+   "software": 100,
+   "tax": 100,
+   "license": 100
+  },
+  "gold_total": 100.0,
+  "must_have_failed": []
+ },
+ {
+  "id": "AC15",
+  "file": "accountant/AC15.jpg",
+  "format": "scan",
+  "layout": "classic",
+  "lang": "th",
+  "profile": {
+   "full_name": "ธนพล ทองคำ",
+   "email": "thanaphon.tho15@example.com",
+   "phone": "088-953-1392",
+   "gender": "male",
+   "birth_year": 1994,
+   "grad_year": 2016,
+   "experience": [
+    {
+     "start": "2026-01",
+     "end": null,
+     "relevant": true
+    },
+    {
+     "start": "2024-11",
+     "end": "2025-10",
+     "relevant": false
+    }
+   ],
+   "skills": [
+    "express"
+   ]
+  },
+  "gold_scores": {
+   "exp": 50,
+   "degree": 50,
+   "excel": 0,
+   "software": 100,
+   "tax": 0,
+   "license": 0
+  },
+  "gold_total": 35.7,
+  "must_have_failed": [
+   "excel"
+  ]
+ },
+ {
+  "id": "AC16",
+  "file": "accountant/AC16.jpg",
+  "format": "scan",
+  "layout": "two-col",
+  "lang": "en",
+  "profile": {
+   "full_name": "Natthida Srisuk",
+   "email": "natthida.sri16@example.com",
+   "phone": "088-636-3469",
+   "gender": "female",
+   "birth_year": 1994,
+   "grad_year": 2016,
+   "experience": [],
+   "skills": []
+  },
+  "gold_scores": {
+   "exp": 0,
+   "degree": 0,
+   "excel": 0,
+   "software": 50,
+   "tax": 0,
+   "license": 0
+  },
+  "gold_total": 7.1,
+  "must_have_failed": [
+   "degree",
+   "exp",
+   "excel"
+  ]
+ },
+ {
+  "id": "AC17",
+  "file": "accountant/AC17.jpg",
+  "format": "scan",
+  "layout": "table",
+  "lang": "th",
+  "profile": {
+   "full_name": "สุภาพร วงศ์ทอง",
+   "email": "supaporn.won17@example.com",
+   "phone": "088-471-4130",
+   "gender": "female",
+   "birth_year": 1987,
+   "grad_year": 2009,
+   "experience": [
+    {
+     "start": "2024-11",
+     "end": "2026-08",
+     "relevant": true
+    },
+    {
+     "start": "2023-09",
+     "end": "2024-08",
+     "relevant": false
+    }
+   ],
+   "skills": [
+    "cpa",
+    "excel",
+    "sap",
+    "tax"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 50,
+   "excel": 50,
+   "software": 100,
+   "tax": 100,
+   "license": 50
+  },
+  "gold_total": 71.4,
+  "must_have_failed": []
+ },
+ {
+  "id": "AC18",
+  "file": "accountant/AC18.jpg",
+  "format": "scan",
+  "layout": "classic",
+  "lang": "en",
+  "profile": {
+   "full_name": "Supaporn Kaewmanee",
+   "email": "supaporn.kae18@example.com",
+   "phone": "084-769-4318",
+   "gender": "female",
+   "birth_year": 2000,
+   "grad_year": 2022,
+   "experience": [
+    {
+     "start": "2021-11",
+     "end": null,
+     "relevant": true
+    },
+    {
+     "start": "2021-01",
+     "end": "2021-08",
+     "relevant": false
+    }
+   ],
+   "skills": [
+    "cpa",
+    "excel",
+    "sap",
+    "tax"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 100,
+   "excel": 100,
+   "software": 100,
+   "tax": 100,
+   "license": 100
+  },
+  "gold_total": 100.0,
+  "must_have_failed": []
+ },
+ {
+  "id": "AC19",
+  "file": "accountant/AC19.jpg",
+  "format": "scan",
+  "layout": "two-col",
+  "lang": "th",
+  "profile": {
+   "full_name": "สมชาย ทองคำ",
+   "email": "somchai.tho19@example.com",
+   "phone": "089-452-7595",
+   "gender": "male",
+   "birth_year": 1984,
+   "grad_year": 2006,
+   "experience": [],
+   "skills": [
+    "tax"
+   ]
+  },
+  "gold_scores": {
+   "exp": 0,
+   "degree": 0,
+   "excel": 0,
+   "software": 0,
+   "tax": 50,
+   "license": 0
+  },
+  "gold_total": 4.8,
+  "must_have_failed": [
+   "degree",
+   "exp",
+   "excel"
+  ]
+ },
+ {
+  "id": "AC20",
+  "file": "accountant/AC20.jpg",
+  "format": "scan",
+  "layout": "table",
+  "lang": "en",
+  "profile": {
+   "full_name": "Piya Jaidee",
+   "email": "piya.jai20@example.com",
+   "phone": "087-393-7924",
+   "gender": "male",
+   "birth_year": 2002,
+   "grad_year": 2024,
+   "experience": [
+    {
+     "start": "2024-11",
+     "end": null,
+     "relevant": true
+    },
+    {
+     "start": "2023-01",
+     "end": "2024-08",
+     "relevant": true
+    }
+   ],
+   "skills": [
+    "cpa",
+    "excel",
+    "express",
+    "tax"
+   ]
+  },
+  "gold_scores": {
+   "exp": 100,
+   "degree": 100,
+   "excel": 100,
+   "software": 100,
+   "tax": 100,
+   "license": 50
+  },
+  "gold_total": 92.9,
+  "must_have_failed": []
+ }
+]
