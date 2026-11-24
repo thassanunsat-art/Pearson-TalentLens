@@ -130,11 +130,11 @@ def test_llm_pipeline_with_fake_model(monkeypatch):
     spec = job()
 
     def fake_call(system, content, output_model, max_tokens=16000):
-        if output_model is ExtractionResult:
+        if output_model is CandidateProfile:  # text CVs: profile only, transcript = text layer
             prof = profile(full_name=doc.text.splitlines()[0], skills=[Skill(name="SQL", evidence="SQL")],
                            education=[Education(degree="B.Sc.", field="Statistics", institution="X", year=2018)],
                            experience=[Experience(title="Data Analyst", organization="Y", start="2022-01", end=None, highlights=[])])
-            return ExtractionResult(profile=prof, transcript="ignored"), llm.Usage(1000, 200)
+            return prof, llm.Usage(1000, 200)
         assert output_model is ScoringResult
         assert MASK in content[0]["text"]  # the scorer only sees redacted text
         scores = [CriterionScore(requirement_id=r.id, score=100, evidence=["made-up quote not in the CV"], reasoning="")
@@ -146,3 +146,80 @@ def test_llm_pipeline_with_fake_model(monkeypatch):
     assert res.input_tokens == 3000 and res.output_tokens == 500
     assert res.total_score == 0  # every fabricated quote is rejected
     assert all(not s.evidence_verified for s in res.criterion_scores)
+
+
+# ------------------------------------------------------- free backends
+class FakeResponse:
+    def __init__(self, payload, status=200):
+        self.payload, self.status_code, self.text = payload, status, json.dumps(payload)
+
+    def json(self):
+        return self.payload
+
+
+def test_local_llm_retries_invalid_json(monkeypatch):
+    from talentlens import local_llm
+
+    answers = iter(['{"scores": "not a list"}', '{"scores": []}'])
+    sent = []
+
+    def fake_post(url, json, timeout):
+        sent.append(json)
+        return FakeResponse({"message": {"content": next(answers)}, "prompt_eval_count": 50, "eval_count": 10})
+
+    monkeypatch.setattr(local_llm.httpx, "post", fake_post)
+    result, usage = local_llm.structured_call("sys", [{"type": "text", "text": "cv"}], ScoringResult)
+    assert result.scores == [] and usage.input_tokens == 100
+    assert sent[0]["options"]["num_ctx"] >= 8192 and sent[0]["options"]["temperature"] == 0
+    assert isinstance(sent[0]["format"], dict)  # JSON schema constrained decoding
+    assert len(sent[1]["messages"]) == 4  # second try includes the validation error
+
+
+def test_local_llm_rejects_images():
+    from talentlens import local_llm
+
+    with pytest.raises(llm.LLMError):
+        local_llm.structured_call("sys", [{"type": "image", "source": {}}], ScoringResult)
+
+
+def test_local_mode_uses_ollama_backend(monkeypatch):
+    from talentlens import local_llm
+
+    calls = []
+
+    def fake_local(system, content, output_model, max_tokens=16000):
+        calls.append(output_model.__name__)
+        if output_model is CandidateProfile:
+            return profile(), llm.Usage(10, 10)
+        return ScoringResult(scores=[]), llm.Usage(10, 10)
+
+    def fail(*a, **k):
+        raise AssertionError("Claude must not be called in local mode")
+
+    monkeypatch.setattr(local_llm, "structured_call", fake_local)
+    monkeypatch.setattr(llm, "structured_call", fail)
+    res = screen_document(ingest_path(DATA / "cv" / "accountant" / "AC03.pdf"), job("accountant"), mode="local", today=TODAY)
+    assert calls == ["CandidateProfile", "ScoringResult"]
+    assert res.input_tokens == 0  # free backend: no API cost reported
+
+
+def test_scan_without_ocr_is_reported():
+    from talentlens import ocr
+    from talentlens.pipeline import prepare
+
+    doc = ingest_path(DATA / "cv" / "accountant" / "AC15.jpg")
+    with pytest.raises(ValueError):
+        prepare(doc, "rules", use_ocr=False)
+    if not ocr.available():
+        with pytest.raises(ocr.OCRUnavailable):
+            prepare(doc, "rules", use_ocr=True)
+
+
+@pytest.mark.skipif("not __import__('talentlens.ocr', fromlist=['x']).available()", reason="Tesseract with Thai not installed")
+def test_ocr_reads_sample_scan():
+    from talentlens.pipeline import prepare
+
+    gold = json.loads((DATA / "ground_truth" / "accountant.json").read_text(encoding="utf-8"))
+    g = next(x for x in gold if x["file"].endswith("AC15.jpg"))
+    doc, used = prepare(ingest_path(DATA / "cv" / g["file"]), "rules")
+    assert used and g["profile"]["email"] in doc.text

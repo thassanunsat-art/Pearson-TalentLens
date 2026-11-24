@@ -14,8 +14,8 @@ Weights: 4-5 for must-haves, 1-3 for nice-to-haves. Put a numeric min_years only
 experience criteria. Give Thai and English keywords/synonyms a recruiter would look for."""
 
 
-def parse_jd_llm(jd_text: str) -> tuple[JobSpec, llm.Usage]:
-    spec, usage = llm.structured_call(SYSTEM_PROMPT, [{"type": "text", "text": f"<jd>\n{jd_text}\n</jd>"}], JobSpec)
+def parse_jd_llm(jd_text: str, call=None) -> tuple[JobSpec, llm.Usage]:
+    spec, usage = (call or llm.structured_call)(SYSTEM_PROMPT, [{"type": "text", "text": f"<jd>\n{jd_text}\n</jd>"}], JobSpec)
     for r in spec.requirements:
         r.weight = min(5, max(1, r.weight))
     return spec, usage

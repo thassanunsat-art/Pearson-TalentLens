@@ -53,14 +53,15 @@ def total_years(profile: CandidateProfile, today: date | None = None) -> float:
 
 
 # ------------------------------------------------------------------ scoring
-def score_llm(redacted_text: str, years: float, job: JobSpec) -> tuple[list[CriterionScore], llm.Usage]:
+def score_llm(redacted_text: str, years: float, job: JobSpec, call=None) -> tuple[list[CriterionScore], llm.Usage]:
+    call = call or llm.structured_call
     reqs = [r.model_dump(include={"id", "criterion", "type", "min_years"}) for r in job.requirements]
     prompt = (
         f"<job title='{job.title}'>\n{json.dumps(reqs, ensure_ascii=False, indent=1)}\n</job>\n\n"
         f"<cv total_experience_years='{years}'>\n{redacted_text}\n</cv>\n\n"
         "Score every criterion by its id."
     )
-    result, usage = llm.structured_call(SYSTEM_PROMPT, [{"type": "text", "text": prompt}], ScoringResult)
+    result, usage = call(SYSTEM_PROMPT, [{"type": "text", "text": prompt}], ScoringResult)
     return result.scores, usage
 
 

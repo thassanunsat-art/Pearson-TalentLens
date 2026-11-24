@@ -1,5 +1,7 @@
 # TalentLens: Document Intelligence สำหรับคัดกรองใบสมัครงาน
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/thassanunsat-art/Pearson-TalentLens/blob/main/notebooks/TalentLens_Colab.ipynb)
+
 TalentLens อ่าน CV (PDF, Word, ภาพสแกน ทั้งไทยและอังกฤษ) ดึงข้อมูลผู้สมัครออกมาเป็นโครงสร้าง
 ให้คะแนนเทียบกับประกาศรับสมัครงาน (JD) **พร้อมประโยคหลักฐานที่ตรวจแล้วว่ามีอยู่ใน CV จริง**
 แล้วจัดอันดับให้ฝ่ายบุคคลตัดสิน โดยคนยังเป็นผู้ตัดสินสุดท้ายเสมอ
@@ -29,8 +31,8 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  CV[ไฟล์ CV<br/>PDF / DOCX / JPG] --> I[1. Ingest<br/>PyMuPDF, python-docx<br/>สแกนหรือข้อความเพี้ยน → ภาพ]
-  I --> E[2. Extract<br/>Claude vision + structured outputs<br/>→ CandidateProfile]
+  CV[ไฟล์ CV<br/>PDF / DOCX / JPG] --> I[1. Ingest<br/>PyMuPDF, python-docx<br/>ภาพสแกน → Tesseract OCR ไทย]
+  I --> E[2. Extract<br/>LLM + JSON schema<br/>→ CandidateProfile]
   E --> R[3. Redact<br/>ซ่อนชื่อ เพศ อายุ ติดต่อ สถาบัน]
   JD[ประกาศงาน JD] --> P[JD parser<br/>→ เกณฑ์ must / nice + น้ำหนัก]
   R --> S[4. Score<br/>0 / 50 / 100 ต่อเกณฑ์ + quote]
@@ -40,23 +42,42 @@ flowchart LR
   H --> X[7. Export<br/>CSV / Excel + SQLite audit log]
 ```
 
+ขั้น Extract และ Score เลือก "สมอง" ได้ 3 แบบ ส่วนขั้นอื่นใช้ร่วมกัน
+
+| วิธี | อ่านภาพสแกน | เข้าใจคำพ้องความหมาย | ค่าใช้จ่าย |
+| --- | --- | --- | --- |
+| **Rule-based** (regex + พจนานุกรมทักษะ) | ผ่าน Tesseract OCR | ไม่ได้ | ฟรี |
+| **โมเดล open-source** ผ่าน [Ollama](https://ollama.com) (ค่าเริ่มต้น `qwen2.5:7b`) | ผ่าน Tesseract OCR | ได้ | ฟรี (รันบนเครื่องหรือ GPU ฟรีของ Colab) |
+| **Claude API** (ไม่บังคับ) | อ่านภาพได้เอง | ได้ | ตามจำนวน token |
+
 หลักการออกแบบที่สำคัญ
 
 - **LLM ตัดสินรายเกณฑ์ ส่วนโค้ดคำนวณคะแนนรวม**: `คะแนนรวม = Σ(น้ำหนัก × คะแนนเกณฑ์) / Σ น้ำหนัก` ได้ผลคงที่และตรวจสอบได้
 - **กันโมเดลแต่งข้อมูล (hallucination)**: ทุก quote ถูกตรวจด้วย fuzzy match กับข้อความ CV ถ้าไม่พบ คะแนนเกณฑ์นั้นเป็น 0 และติดธง
 - **Blind screening**: โมเดลที่ให้คะแนนเห็นเฉพาะข้อความที่ปิดข้อมูลระบุตัวตนแล้ว
 - **รองรับเอกสารไทยจริง**: แปลงปี พ.ศ. แก้สระอำที่แตก (`ํา` → `ำ`) และตรวจ text layer ที่เพี้ยนจากฟอนต์ไทย แล้วส่งเป็นภาพแทน
-- **มีโหมดออฟไลน์ (rule-based)**: ใช้ regex + พจนานุกรมทักษะ ใช้เดโมได้โดยไม่มี API key และเป็น baseline ตอนประเมินผล
+- **โมเดลในเครื่องถูกบังคับรูปแบบคำตอบ**: ส่ง JSON schema ให้ Ollama (constrained decoding), ตั้ง temperature 0
+  และขยาย context เป็น 8192 token เพราะข้อความภาษาไทยใช้ token มาก ถ้าคำตอบไม่ผ่าน schema จะส่งข้อผิดพลาดกลับให้แก้ 1 รอบ
 
-## วิธีติดตั้งและรัน
+## วิธีรัน
+
+**ง่ายที่สุด: Google Colab (ฟรี)** กดปุ่ม *Open in Colab* ด้านบน เลือก *Runtime → T4 GPU* แล้วรันทีละช่อง
+notebook จะติดตั้ง Tesseract, Ollama และโมเดลให้ แล้วรันการประเมินผลทั้ง 3 แนวทาง
+
+**บนเครื่องตัวเอง**
 
 ```bash
 python -m venv .venv
 # Windows: .venv\Scripts\activate    macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env        # ใส่ ANTHROPIC_API_KEY (ไม่ใส่ก็ได้ ถ้าจะใช้โหมด rule-based)
+# OCR ภาษาไทย: Ubuntu `sudo apt install tesseract-ocr tesseract-ocr-tha`
+#              Windows: ติดตั้ง Tesseract (UB Mannheim) และเลือกภาษา Thai
+# โมเดล open-source: ติดตั้ง Ollama จาก ollama.com แล้ว
+ollama pull qwen2.5:7b
 streamlit run app.py
 ```
+
+ถ้าต้องการลอง Claude API ด้วย (ไม่บังคับ) ให้ `cp .env.example .env` แล้วใส่ `ANTHROPIC_API_KEY`
 
 > **Windows:** ถ้า `pip install anthropic` ล้มเหลวเพราะ path ยาวเกิน ให้สร้าง venv ในโฟลเดอร์ที่ path สั้น
 > (เช่น `C:\venvs\talentlens`) หรือเปิด Long Paths ใน Windows
@@ -64,8 +85,9 @@ streamlit run app.py
 ในแอป: เลือกตำแหน่งตัวอย่าง (หรือวาง JD เอง) → ปรับเกณฑ์และน้ำหนัก → อัปโหลด CV หรือใช้ CV ตัวอย่าง →
 กด **คัดกรอง** → ดูอันดับ หลักฐาน และข้อควรตรวจ → บันทึกการตัดสิน → ดาวน์โหลด CSV/Excel
 
-ค่าเริ่มต้นใช้โมเดล `claude-opus-5-5` ที่ effort `medium` (เปลี่ยนได้ด้วย `TALENTLENS_MODEL` และ `TALENTLENS_EFFORT`)
-และเปิด server-side fallback ไว้ ถ้าโมเดลปฏิเสธคำขอ API จะลองใหม่ด้วยโมเดลสำรองในคำขอเดียวกัน
+ตั้งค่าได้ด้วย environment variables: `TALENTLENS_LOCAL_MODEL` (โมเดล Ollama), `OLLAMA_HOST`,
+`TALENTLENS_MODEL` / `TALENTLENS_EFFORT` (Claude; ค่าเริ่มต้น `claude-opus-5-5` ที่ effort `medium`
+พร้อม server-side fallback เมื่อโมเดลปฏิเสธคำขอ)
 
 ## ชุดข้อมูลและการประเมินผล
 
@@ -84,9 +106,10 @@ CV ตั้งใจใส่ความยากแบบที่เจอ�
 และเลย์เอาต์ 2 คอลัมน์
 
 ```bash
-python eval/run_eval.py               # rule-based + TF-IDF (ฟรี)
-python eval/run_eval.py --mode all    # + Claude API (เสียค่า API; ผลถูก cache ใน eval/cache/)
-python -m pytest -q                   # unit + integration tests (ไม่เรียก API)
+python eval/run_eval.py                # rules (+ ocr+rules ถ้ามี Tesseract) + TF-IDF
+python eval/run_eval.py --mode free    # + โมเดล open-source ผ่าน Ollama (ฟรี; ผลถูก cache ใน eval/cache/)
+python eval/run_eval.py --mode llm --model claude-haiku-5-5 --limit 2   # (ไม่บังคับ) Claude API แบบถูกที่สุด
+python -m pytest -q                    # unit + integration tests (ไม่เรียกโมเดลจริง)
 ```
 
 ผลล่าสุดอยู่ใน [`eval/results/REPORT.md`](eval/results/REPORT.md) ตัวชี้วัดหลักได้แก่ ความถูกต้องรายฟิลด์, Skills F1,
@@ -99,7 +122,9 @@ python -m pytest -q                   # unit + integration tests (ไม่เ�
 app.py                      Streamlit UI
 talentlens/
   ingest.py                 อ่านไฟล์ → ข้อความ/ภาพ, แก้ข้อความไทยเพี้ยน
-  extract.py                CV → CandidateProfile (Claude หรือ rule-based)
+  extract.py                CV → CandidateProfile (LLM หรือ rule-based)
+  ocr.py                    Tesseract OCR ไทย+อังกฤษ สำหรับภาพสแกน
+  local_llm.py              โมเดล open-source ผ่าน Ollama (ฟรี)
   jd_parser.py              JD → เกณฑ์ must/nice
   redact.py                 blind screening
   score.py                  ให้คะแนนรายเกณฑ์, ตรวจหลักฐาน, คะแนนรวม
@@ -110,6 +135,7 @@ talentlens/
 data/                       JD, CV สมมติ, เฉลย, ตัวสร้างข้อมูล
 eval/                       run_eval.py, baseline.py (TF-IDF), results/
 docs/video_script.md        โครงวิดีโอนำเสนอ 20 นาที
+notebooks/TalentLens_Colab.ipynb   รันทุกอย่างบน Colab GPU ฟรี
 tests/
 ```
 

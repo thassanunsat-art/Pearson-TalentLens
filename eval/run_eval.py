@@ -1,8 +1,10 @@
 """Evaluate TalentLens against the synthetic answer key.
 
-    python eval/run_eval.py                 # rule-based + TF-IDF (free, offline)
-    python eval/run_eval.py --mode llm      # Claude API (costs money; results are cached)
-    python eval/run_eval.py --mode all
+    python eval/run_eval.py                 # rule-based (+ OCR if Tesseract is installed) + TF-IDF
+    python eval/run_eval.py --mode free     # + open-source model via Ollama (free; needs `ollama serve`)
+    python eval/run_eval.py --mode llm      # Claude API only (costs money)
+    python eval/run_eval.py --mode all      # everything
+Model results are cached in eval/cache/ so re-runs are fast and free.
 
 Writes eval/results/REPORT.md, summary.json and per_cv_<method>.csv.
 """
@@ -21,7 +23,8 @@ from scipy.stats import spearmanr
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
-from talentlens import llm  # noqa: E402
+from talentlens import llm, local_llm, ocr  # noqa: E402
+from talentlens.ocr import OCRUnavailable  # noqa: E402
 from talentlens.ingest import ingest_path  # noqa: E402
 from talentlens.pipeline import screen_document  # noqa: E402
 from talentlens.schemas import CandidateProfile, CandidateResult, Experience, JobSpec  # noqa: E402
@@ -66,15 +69,30 @@ def f1(pred: set, gold: set) -> tuple[int, int, int]:
 
 
 # ------------------------------------------------------------- run system
-def run_one(path: Path, job: JobSpec, mode: str, blind: bool = True) -> CandidateResult | None:
-    key = CACHE / mode / ("blind" if blind else "open") / (path.stem + ".json")
-    if mode == "llm" and key.exists():
+# method key -> (pipeline mode, use OCR for scans)
+METHODS = {"rules": ("rules", False), "ocr+rules": ("rules", True), "local": ("local", True), "llm": ("llm", False)}
+
+
+def method_label(method: str) -> str:
+    """Report/cache name; model-based methods include the model id."""
+    if method == "local":
+        return "ocr+" + local_llm.MODEL.replace(":", "-")
+    if method == "llm":
+        return llm.MODEL
+    return method
+
+
+def run_one(path: Path, job: JobSpec, method: str, blind: bool = True) -> CandidateResult | None:
+    mode, use_ocr = METHODS[method]
+    cached = mode in ("llm", "local")  # model calls are slow or paid: cache them
+    key = CACHE / method_label(method) / ("blind" if blind else "open") / (path.stem + ".json")
+    if cached and key.exists():
         return CandidateResult.model_validate_json(key.read_text(encoding="utf-8"))
     doc = ingest_path(path)
-    if mode == "rules" and doc.needs_vision:
+    if doc.needs_vision and mode != "llm" and not use_ocr:
         return None
-    res = screen_document(doc, job, mode=mode, blind=blind, today=TODAY)
-    if mode == "llm":
+    res = screen_document(doc, job, mode=mode, blind=blind, today=TODAY, use_ocr=use_ocr)
+    if cached:
         key.parent.mkdir(parents=True, exist_ok=True)
         key.write_text(res.model_dump_json(), encoding="utf-8")
     return res
@@ -90,7 +108,7 @@ def evaluate_method(mode: str, limit: int | None) -> tuple[dict, pd.DataFrame]:
         for g in gold:
             try:
                 r = run_one(DATA / "cv" / g["file"], job, mode)
-            except llm.LLMError as e:
+            except (llm.LLMError, OCRUnavailable) as e:
                 print(f"  ! {g['id']}: {e}")
                 r = None
             row = {"job": job_name, "id": g["id"], "format": g["format"], "lang": g["lang"], "layout": g["layout"],
@@ -209,28 +227,47 @@ def report(summaries: list[dict], cf: dict) -> str:
         for m, res in cf.items():
             for k, v in res.items():
                 lines.append(f"| {m} | {k} | {v['pairs']} | {fmt(v['mean_abs_diff'])} | {fmt(v['max_abs_diff'])} |")
-    lines += ["", "หมายเหตุ: ไฟล์ที่วิธีใดอ่านไม่ได้ (เช่น rule-based กับภาพสแกน) นับคะแนน 0 ในการจัดอันดับ",
-              "TF-IDF ใช้เฉพาะการจัดอันดับ (ไม่ดึงข้อมูล)"]
+    lines += ["", "หมายเหตุ",
+              "- `rules` = regex + คำสำคัญ (อ่านภาพสแกนไม่ได้) · `ocr+rules` = Tesseract OCR + rules · "
+              "`ocr+<โมเดล>` = OCR + โมเดล open-source ผ่าน Ollama · `claude-*` = Claude API",
+              "- ไฟล์ที่วิธีใดอ่านไม่ได้นับคะแนน 0 ในการจัดอันดับ · TF-IDF ใช้เฉพาะการจัดอันดับ (ไม่ดึงข้อมูล)",
+              "- เวลาต่อ CV ของโมเดลในเครื่องขึ้นกับ GPU (เช่น Colab T4)"]
     return "\n".join(lines) + "\n"
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--mode", choices=["rules", "llm", "all"], default="rules")
-    ap.add_argument("--limit", type=int, default=None, help="CVs per job (for a cheap trial run)")
+    ap.add_argument("--mode", choices=["rules", "free", "local", "llm", "all"], default="rules")
+    ap.add_argument("--limit", type=int, default=None, help="CVs per job (for a quick trial run)")
+    ap.add_argument("--model", default=None, help="Claude model, e.g. claude-haiku-5-5 (cheapest) or claude-opus-5-5")
+    ap.add_argument("--local-model", default=None, help="Ollama model, e.g. qwen2.5:7b (default)")
+    ap.add_argument("--no-counterfactual", action="store_true", help="skip the name/gender swap test (saves ~40 model calls)")
     args = ap.parse_args()
-    modes = ["rules", "llm"] if args.mode == "all" else [args.mode]
+    if args.model:
+        llm.MODEL = args.model
+    if args.local_model:
+        local_llm.MODEL = args.local_model
+    base = ["rules"] + (["ocr+rules"] if ocr.available() else [])
+    modes = {"rules": base, "free": base + ["local"], "local": ["local"], "llm": ["llm"],
+             "all": base + ["local", "llm"]}[args.mode]
+    if not ocr.available():
+        print("! Tesseract with Thai is not installed - scanned CVs are skipped by rule-based and local methods")
     if "llm" in modes and not llm.api_available():
         sys.exit("ANTHROPIC_API_KEY is not set")
+    if "local" in modes and not local_llm.available():
+        sys.exit(f"Ollama is not running or model {local_llm.MODEL} is not pulled (ollama serve; ollama pull {local_llm.MODEL})")
 
     OUT.mkdir(parents=True, exist_ok=True)
     summaries, cf = [], {}
     for m in modes:
-        print(f"== {m}")
+        print(f"== {method_label(m)}", flush=True)
         s, df = evaluate_method(m, args.limit)
-        df.to_csv(OUT / f"per_cv_{m}.csv", index=False, encoding="utf-8-sig")
+        label = method_label(m)
+        s["method"] = label
+        df.to_csv(OUT / f"per_cv_{label}.csv", index=False, encoding="utf-8-sig")
         summaries.append(s)
-        cf[m] = counterfactual(m)
+        if not args.no_counterfactual:
+            cf[label] = counterfactual(m)
     summaries.append(evaluate_tfidf(args.limit))
     (OUT / "summary.json").write_text(json.dumps({"summaries": summaries, "counterfactual": cf}, ensure_ascii=False, indent=1, default=float), encoding="utf-8")
     md = report(summaries, cf)

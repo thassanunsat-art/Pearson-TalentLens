@@ -28,8 +28,14 @@ MODEL = os.getenv("TALENTLENS_MODEL", "claude-opus-5-5")
 EFFORT = os.getenv("TALENTLENS_EFFORT", "medium")  # low | medium | high
 FALLBACK_BETA = "server-side-fallback-2026-07-01"
 
-# USD per million tokens (Claude Opus 5.5 list price) - used for cost reporting only.
-PRICE_IN, PRICE_OUT = 4.00, 20.00
+# USD per million tokens (input, output), list prices - used for cost reporting only.
+PRICES = {
+    "claude-opus-5-5": (4.00, 20.00),
+    "claude-sonnet-5-5": (2.00, 10.00),
+    "claude-haiku-5-5": (0.10, 0.50),
+}
+# Models that accept server-side refusal fallbacks (Haiku does not).
+FALLBACK_MODELS = ("claude-opus-5-5", "claude-opus-5", "claude-sonnet-5-5", "claude-fable-5-2", "claude-fable-5-1")
 
 T = TypeVar("T", bound=BaseModel)
 
@@ -49,7 +55,8 @@ class Usage:
 
     @property
     def cost_usd(self) -> float:
-        return self.input_tokens / 1e6 * PRICE_IN + self.output_tokens / 1e6 * PRICE_OUT
+        p_in, p_out = PRICES.get(MODEL, PRICES["claude-opus-5-5"])
+        return self.input_tokens / 1e6 * p_in + self.output_tokens / 1e6 * p_out
 
 
 _client: anthropic.Anthropic | None = None
@@ -76,20 +83,22 @@ def image_block(media_type: str, data: bytes) -> dict:
 def structured_call(system: str, content: list[dict], output_model: type[T], max_tokens: int = 16000) -> tuple[T, Usage]:
     """One Claude call whose answer is validated against a Pydantic model.
 
-    Server-side fallbacks are on: if the model declines on a safety classifier,
-    the API retries on a fallback model inside the same call.
+    On models that support it, server-side fallbacks are on: if the model declines
+    on a safety classifier, the API retries on a fallback model inside the same call.
     """
+    params = dict(
+        model=MODEL,
+        max_tokens=max_tokens,
+        system=system,
+        messages=[{"role": "user", "content": content}],
+        output_format=output_model,
+        output_config={"effort": EFFORT},
+    )
     try:
-        resp = get_client().beta.messages.parse(
-            model=MODEL,
-            max_tokens=max_tokens,
-            betas=[FALLBACK_BETA],
-            fallbacks="default",
-            system=system,
-            messages=[{"role": "user", "content": content}],
-            output_format=output_model,
-            output_config={"effort": EFFORT},
-        )
+        if MODEL in FALLBACK_MODELS:
+            resp = get_client().beta.messages.parse(betas=[FALLBACK_BETA], fallbacks="default", **params)
+        else:
+            resp = get_client().messages.parse(**params)
     except anthropic.AuthenticationError as e:
         raise LLMError("API key ไม่ถูกต้อง (authentication failed)") from e
     except anthropic.RateLimitError as e:

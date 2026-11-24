@@ -9,7 +9,7 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
-from talentlens import llm, store
+from talentlens import llm, local_llm, ocr, store
 from talentlens.pipeline import parse_jd, screen_files
 from talentlens.schemas import CandidateResult, JobRequirement, JobSpec
 
@@ -25,17 +25,27 @@ st.caption("ระบบช่วยคัดกรองใบสมัคร�
 with st.sidebar:
     st.header("ตั้งค่า")
     has_key = llm.api_available()
-    mode_label = st.radio(
-        "วิธีอ่านและให้คะแนน",
-        ["Claude API (แนะนำ)", "Rule-based (ออฟไลน์)"],
-        index=0 if has_key else 1,
-        help="Rule-based ใช้ regex + คำสำคัญ ไม่ต้องมี API key แต่อ่านไฟล์สแกนไม่ได้และไม่เข้าใจคำพ้องความหมาย",
+    has_local = st.cache_data(ttl=20, show_spinner=False)(local_llm.available)()
+    modes = ["local", "rules", "llm"]
+    mode = st.radio(
+        "วิธีอ่านและให้คะแนน", modes,
+        index=0 if has_local else 2 if has_key else 1,
+        format_func=lambda m: {"local": "โมเดล open-source (ฟรี)", "rules": "Rule-based (ฟรี)", "llm": "Claude API (เสียค่าใช้จ่าย)"}[m],
+        help="open-source: ใช้ Ollama + OCR · rule-based: regex + คำสำคัญ ไม่เข้าใจคำพ้อง · Claude: แม่นที่สุด อ่านภาพได้เอง",
     )
-    mode = "llm" if mode_label.startswith("Claude") else "rules"
-    if mode == "llm" and not has_key:
-        st.error("ไม่พบ ANTHROPIC_API_KEY - ตั้งค่าในไฟล์ .env หรือ environment ก่อน")
+    if mode == "local":
+        if has_local:
+            st.caption(f"โมเดล: `{local_llm.MODEL}` ที่ {local_llm.HOST}")
+        else:
+            st.error(f"ไม่พบ Ollama หรือโมเดล `{local_llm.MODEL}` - รัน `ollama serve` และ `ollama pull {local_llm.MODEL}`")
     if mode == "llm":
-        st.caption(f"โมเดล: `{llm.MODEL}` · effort: `{llm.EFFORT}`")
+        if has_key:
+            st.caption(f"โมเดล: `{llm.MODEL}` · effort: `{llm.EFFORT}`")
+        else:
+            st.error("ไม่พบ ANTHROPIC_API_KEY - ตั้งค่าในไฟล์ .env หรือ environment ก่อน")
+    if mode != "llm":
+        st.caption("OCR ภาพสแกน: " + ("✅ Tesseract (ไทย+อังกฤษ)" if ocr.available() else "❌ ไม่พบ Tesseract - จะข้ามไฟล์ภาพ"))
+    backend_ready = {"llm": has_key, "local": has_local, "rules": True}[mode]
     blind = st.toggle("โหมดปิดชื่อ (blind screening)", value=True,
                       help="ซ่อนชื่อ เพศ อายุ ช่องทางติดต่อ และชื่อสถาบัน ก่อนส่งให้โมเดลให้คะแนน")
     reviewer = st.text_input("ชื่อผู้ตรวจ (สำหรับ audit log)", value="HR")
@@ -100,15 +110,15 @@ if cv_src == "อัปโหลด":
     files = [(u.name, u.getvalue()) for u in ups or []]
 elif job_key:
     paths = sorted((DATA / "cv" / job_key).glob("*.*"))
-    if mode == "rules":
+    if mode != "llm" and not ocr.available():
         paths = [p for p in paths if p.suffix != ".jpg"]
-        st.caption("โหมด rule-based ข้ามไฟล์รูปสแกน (.jpg)")
+        st.caption("ไม่มี OCR - ข้ามไฟล์รูปสแกน (.jpg)")
     n = st.slider("จำนวน CV", 1, len(paths), min(8, len(paths)))
     files = [(p.name, p.read_bytes()) for p in paths[:n]]
 else:
     st.info("CV ตัวอย่างมีเฉพาะตำแหน่งตัวอย่าง")
 
-run = st.button("🚀 คัดกรอง", type="primary", disabled=not (job and files and job.requirements) or (mode == "llm" and not llm.api_available()))
+run = st.button("🚀 คัดกรอง", type="primary", disabled=not (job and files and job.requirements and backend_ready))
 if run:
     bar = st.progress(0.0, text="เริ่ม...")
     results, errors = screen_files(files, job, mode=mode, blind=blind,

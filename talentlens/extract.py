@@ -1,8 +1,9 @@
 """Step 2 - Extract: CV -> CandidateProfile (+ transcript).
 
-Two extractors share one output type:
-* ``extract_llm``   - Claude vision + structured outputs (the main method)
-* ``extract_rules`` - regex + lexicon, no API needed (offline demo / baseline)
+Extractors share one output type:
+* ``extract_llm(doc, call)`` - a language model; ``call`` is ``llm.structured_call``
+  (Claude, reads images too) or ``local_llm.structured_call`` (open-source via Ollama, text only)
+* ``extract_rules``          - regex + lexicon, no model at all (baseline)
 """
 from __future__ import annotations
 
@@ -23,24 +24,21 @@ Rules:
   If only a year is given, use YYYY-01 for a start and YYYY-12 for an end.
 - A current job ("ปัจจุบัน", "present", "now") has end = null.
 - For each skill, give an exact short quote from the CV as evidence.
-- `transcript` is a faithful plain-text transcription of the whole CV in reading order.
+- If asked for a `transcript`, give a faithful plain-text transcription of the whole CV in reading order.
+- The text may come from OCR and contain small errors; fix obvious OCR mistakes in names of skills only.
 - List any field you could not read confidently in `low_confidence_fields`."""
 
 
-def extract_llm(doc: IngestedDocument) -> tuple[ExtractionResult, llm.Usage]:
-    content: list[dict] = []
-    if doc.needs_vision:
-        content.extend(llm.image_block(mt, data) for mt, data in doc.images)
+def extract_llm(doc: IngestedDocument, call=None) -> tuple[ExtractionResult, llm.Usage]:
+    call = call or llm.structured_call
+    if doc.needs_vision:  # images -> the model reads them and transcribes (Claude only)
+        content = [llm.image_block(mt, data) for mt, data in doc.images]
         content.append({"type": "text", "text": f"The images above are the pages of CV file '{doc.file_name}'. Extract the profile and transcribe the CV."})
-    else:
-        content.append({
-            "type": "text",
-            "text": f"<cv file='{doc.file_name}'>\n{doc.text}\n</cv>\n\nExtract the profile. For `transcript`, return the CV text unchanged.",
-        })
-    result, usage = llm.structured_call(SYSTEM_PROMPT, content, ExtractionResult)
-    if doc.text.strip():
-        result.transcript = doc.text  # keep the exact text layer for evidence checks
-    return result, usage
+        return call(SYSTEM_PROMPT, content, ExtractionResult)
+    # text layer (or OCR) available -> ask for the profile only; the text itself is the transcript
+    content = [{"type": "text", "text": f"<cv file='{doc.file_name}'>\n{doc.text}\n</cv>\n\nExtract the profile."}]
+    prof, usage = call(SYSTEM_PROMPT, content, CandidateProfile)
+    return ExtractionResult(profile=prof, transcript=doc.text), usage
 
 
 # ------------------------------------------------------------ rule-based path
