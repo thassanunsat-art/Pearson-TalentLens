@@ -26,9 +26,11 @@ def available() -> bool:
         import pytesseract
 
         if not shutil.which("tesseract") and os.name == "nt":
-            default = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-            if os.path.exists(default):
-                pytesseract.pytesseract.tesseract_cmd = default
+            for default in (r"C:\Program Files\Tesseract-OCR\tesseract.exe",
+                            os.path.expandvars(r"%LOCALAPPDATA%\Programs\Tesseract-OCR\tesseract.exe")):
+                if os.path.exists(default):  # system-wide or per-user (winget) install
+                    pytesseract.pytesseract.tesseract_cmd = default
+                    break
         return "tha" in pytesseract.get_languages(config="")
     except Exception:
         return False

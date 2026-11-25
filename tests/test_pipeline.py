@@ -223,3 +223,15 @@ def test_ocr_reads_sample_scan():
     g = next(x for x in gold if x["file"].endswith("AC15.jpg"))
     doc, used = prepare(ingest_path(DATA / "cv" / g["file"]), "rules")
     assert used and g["profile"]["email"] in doc.text
+
+
+def test_normalize_model_dates():
+    p = profile(birth_year=2538, experience=[
+        Experience(title="A", organization="X", start="02/2565", end="ปัจจุบัน", highlights=[]),
+        Experience(title="B", organization="Y", start="2562-06", end="ม.ค. 2565", highlights=[]),
+        Experience(title="C", organization="Z", start="unknown", end="2020", highlights=[]),
+    ])
+    p = extract.normalize_profile(p)
+    assert p.birth_year == 1995
+    assert [(e.start, e.end) for e in p.experience] == [("2022-02", None), ("2019-06", "2022-01"), (None, "2020-12")]
+    validate(p, 5.0, [], TODAY)  # must not raise

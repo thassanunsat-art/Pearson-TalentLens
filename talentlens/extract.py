@@ -34,11 +34,43 @@ def extract_llm(doc: IngestedDocument, call=None) -> tuple[ExtractionResult, llm
     if doc.needs_vision:  # images -> the model reads them and transcribes (Claude only)
         content = [llm.image_block(mt, data) for mt, data in doc.images]
         content.append({"type": "text", "text": f"The images above are the pages of CV file '{doc.file_name}'. Extract the profile and transcribe the CV."})
-        return call(SYSTEM_PROMPT, content, ExtractionResult)
+        res, usage = call(SYSTEM_PROMPT, content, ExtractionResult)
+        res.profile = normalize_profile(res.profile)
+        return res, usage
     # text layer (or OCR) available -> ask for the profile only; the text itself is the transcript
     content = [{"type": "text", "text": f"<cv file='{doc.file_name}'>\n{doc.text}\n</cv>\n\nExtract the profile."}]
     prof, usage = call(SYSTEM_PROMPT, content, CandidateProfile)
-    return ExtractionResult(profile=prof, transcript=doc.text), usage
+    return ExtractionResult(profile=normalize_profile(prof), transcript=doc.text), usage
+
+
+def _norm_ym(value: str | None, end: bool) -> str | None:
+    """Coerce a model-written date to YYYY-MM (Gregorian); None for 'present' or unreadable."""
+    if not value:
+        return None
+    v = value.strip()
+    if re.fullmatch(r"\d{4}-\d{2}", v):
+        y = int(v[:4])
+        return f"{_gregorian(y):04d}-{v[5:]}"
+    if not re.search(r"\d{4}", v):
+        return None
+    try:
+        return parse_date(v, end=end)
+    except (AttributeError, ValueError):
+        return None
+
+
+def normalize_profile(p: CandidateProfile) -> CandidateProfile:
+    """Smaller models often ignore the date format or leave Buddhist-era years; fix that in code."""
+    for e in p.experience:
+        e.start = _norm_ym(e.start, end=False)
+        if e.end is not None:  # no year in it ("ปัจจุบัน", "present") -> current job
+            e.end = _norm_ym(e.end, end=True) if re.search(r"\d{4}", e.end) else None
+    for ed in p.education:
+        if ed.year and ed.year > 2400:
+            ed.year -= 543
+    if p.birth_year and p.birth_year > 2400:
+        p.birth_year -= 543
+    return p
 
 
 # ------------------------------------------------------------ rule-based path

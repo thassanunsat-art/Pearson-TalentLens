@@ -30,7 +30,73 @@
      "ndcg@5": 0.9792650874710934
     }
    ],
-   "sec_per_cv": 0.0,
+   "sec_per_cv": 0.0025,
+   "usd_per_cv": 0.0
+  },
+  {
+   "method": "ocr+rules",
+   "cvs": 40,
+   "processed": 40,
+   "name_ok": 0.925,
+   "email_ok": 0.975,
+   "phone_ok": 1.0,
+   "birth_year_ok": 1.0,
+   "grad_year_ok": 0.825,
+   "years_ok": 0.975,
+   "must_pass_ok": 0.85,
+   "evidence_verified": 1.0,
+   "years_mae": 0.07999999999999999,
+   "skills_f1": 0.849740932642487,
+   "criterion_exact": 0.7583333333333333,
+   "criterion_within_50": 0.9791666666666666,
+   "spearman_mean": 0.9441743482459455,
+   "ndcg5_mean": 0.9903064512800315,
+   "per_job": [
+    {
+     "job": "data_analyst",
+     "spearman": 0.9093690913482025,
+     "ndcg@5": 0.9824665779237869
+    },
+    {
+     "job": "accountant",
+     "spearman": 0.9789796051436884,
+     "ndcg@5": 0.9981463246362762
+    }
+   ],
+   "sec_per_cv": 0.9182500000000001,
+   "usd_per_cv": 0.0
+  },
+  {
+   "method": "ocr+qwen2.5-3b",
+   "cvs": 40,
+   "processed": 40,
+   "name_ok": 0.925,
+   "email_ok": 0.975,
+   "phone_ok": 1.0,
+   "birth_year_ok": 1.0,
+   "grad_year_ok": 1.0,
+   "years_ok": 0.875,
+   "must_pass_ok": 0.575,
+   "evidence_verified": 0.25,
+   "years_mae": 0.48500000000000004,
+   "skills_f1": 0.9285714285714285,
+   "criterion_exact": 0.45416666666666666,
+   "criterion_within_50": 0.6875,
+   "spearman_mean": 0.34393021626920595,
+   "ndcg5_mean": 0.6359145028220706,
+   "per_job": [
+    {
+     "job": "data_analyst",
+     "spearman": 0.28359336907088,
+     "ndcg@5": 0.435698822993398
+    },
+    {
+     "job": "accountant",
+     "spearman": 0.40426706346753183,
+     "ndcg@5": 0.8361301826507432
+    }
+   ],
+   "sec_per_cv": 102.1625,
    "usd_per_cv": 0.0
   },
   {
@@ -62,6 +128,30 @@
     "pairs": 10,
     "mean_abs_diff": 0.0,
     "max_abs_diff": 0.0
+   }
+  },
+  "ocr+rules": {
+   "blind": {
+    "pairs": 10,
+    "mean_abs_diff": 0.0,
+    "max_abs_diff": 0.0
+   },
+   "open": {
+    "pairs": 10,
+    "mean_abs_diff": 0.0,
+    "max_abs_diff": 0.0
+   }
+  },
+  "ocr+qwen2.5-3b": {
+   "blind": {
+    "pairs": 10,
+    "mean_abs_diff": 19.52,
+    "max_abs_diff": 47.6
+   },
+   "open": {
+    "pairs": 10,
+    "mean_abs_diff": 18.8,
+    "max_abs_diff": 52.4
    }
   }
  }

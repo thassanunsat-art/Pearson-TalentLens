@@ -34,8 +34,8 @@ def validate(profile: CandidateProfile, years: float, scores: list[VerifiedScore
         working_age_years = today.year - profile.birth_year - 15
         if years > working_age_years:
             flags.append(Flag(level="error", field="experience", message=f"ประสบการณ์ {years} ปี มากกว่าที่เป็นไปได้ตามอายุ"))
-        earliest = min((e.start for e in profile.experience if e.start), default=None)
-        if earliest and int(earliest[:4]) < profile.birth_year + 15:
+        starts = [int(e.start[:4]) for e in profile.experience if e.start and re.match(r"\d{4}", e.start)]
+        if starts and min(starts) < profile.birth_year + 15:
             flags.append(Flag(level="warning", field="experience", message="เริ่มทำงานก่อนอายุ 15 ปี - ตรวจปีเกิดหรือปี พ.ศ./ค.ศ."))
     if years > 45:
         flags.append(Flag(level="error", field="experience", message=f"ประสบการณ์รวม {years} ปี ผิดปกติ"))
