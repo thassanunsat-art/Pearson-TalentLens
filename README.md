@@ -89,6 +89,17 @@ streamlit run app.py
 `TALENTLENS_MODEL` / `TALENTLENS_EFFORT` (Claude; ค่าเริ่มต้น `claude-opus-5-5` ที่ effort `medium`
 พร้อม server-side fallback เมื่อโมเดลปฏิเสธคำขอ)
 
+**เว็บเดโมออนไลน์ (Streamlit Community Cloud, ฟรี)**
+
+1. เข้า [share.streamlit.io](https://share.streamlit.io) แล้วล็อกอินด้วยบัญชี GitHub
+2. *Create app* → *Deploy a public app from GitHub* → repo `thassanunsat-art/Pearson-TalentLens`, branch `main`, main file `app.py`
+3. *Advanced settings* → Python 3.12 → *Deploy* (ครั้งแรกใช้เวลาติดตั้งราว 3–5 นาที)
+
+`packages.txt` สั่งติดตั้ง Tesseract ภาษาไทยให้ บนคลาวด์ใช้ได้ทั้งโหมด rule-based และ OCR
+ส่วนโหมดโมเดล open-source ใช้ไม่ได้ เพราะคลาวด์ไม่มี Ollama
+โหมด Claude ใช้ได้ถ้าใส่ `ANTHROPIC_API_KEY = "..."` ใน *Settings → Secrets* (เสียค่าใช้จ่าย ทุกคนที่เปิดลิงก์ใช้ key นี้ได้)
+เว็บเดโมเป็นสาธารณะ: ใช้เฉพาะ CV สมมติ และ audit log จะหายเมื่อแอปรีสตาร์ต
+
 ## ชุดข้อมูลและการประเมินผล
 
 ทุกอย่างใน `data/` เป็น **ข้อมูลสมมติ** ไม่มี CV ของบุคคลจริง สร้างได้ซ้ำด้วย `python data/generate_synthetic.py`

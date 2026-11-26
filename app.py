@@ -29,7 +29,7 @@ with st.sidebar:
     modes = ["local", "rules", "llm"]
     mode = st.radio(
         "วิธีอ่านและให้คะแนน", modes,
-        index=0 if has_local else 2 if has_key else 1,
+        index=1,  # rule-based: instant; the local model takes 1-2 min per CV without a GPU
         format_func=lambda m: {"local": "โมเดล open-source (ฟรี)", "rules": "Rule-based (ฟรี)", "llm": "Claude API (เสียค่าใช้จ่าย)"}[m],
         help="open-source: ใช้ Ollama + OCR · rule-based: regex + คำสำคัญ ไม่เข้าใจคำพ้อง · Claude: แม่นที่สุด อ่านภาพได้เอง",
     )
@@ -107,6 +107,7 @@ cv_src = st.radio("แหล่ง CV", ["อัปโหลด", "ใช้ CV 
 files: list[tuple[str, bytes]] = []
 if cv_src == "อัปโหลด":
     ups = st.file_uploader("PDF, DOCX, JPG, PNG (หลายไฟล์ได้)", type=["pdf", "docx", "jpg", "jpeg", "png"], accept_multiple_files=True)
+    st.caption("⚠️ บนเว็บเดโมสาธารณะ ห้ามอัปโหลด CV จริงของบุคคลอื่น (PDPA) - ใช้ CV สมมติในโฟลเดอร์ `data/cv` แทน")
     files = [(u.name, u.getvalue()) for u in ups or []]
 elif job_key:
     paths = sorted((DATA / "cv" / job_key).glob("*.*"))
